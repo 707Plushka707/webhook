@@ -12,7 +12,7 @@ export default () => {
       })
 
       socket.on('hello', data => {
-        console.log('hello', data)
+        console.log('음아잇', data)
       })
 
       socket.on('a user connected', () => {
