@@ -15,6 +15,7 @@ io.on('connection', (socket) => {
     console.log("user connect");
     socket.on("webhook",msg =>{
         io.emit("webhooktest", msg);
+        io.emit("tradeData", msg);
         console.log("성공이다 ", msg);
     });
     socket.on("hello", function(data){
