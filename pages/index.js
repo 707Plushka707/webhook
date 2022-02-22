@@ -7,6 +7,7 @@ const socket = io("http://localhost:3001", {transports: ['websocket']});
 
 export default function Home() {
   const [list, setList] = useState([]);
+  const [post, setPost] = useState([]);
   const [connecting, setConnecting] = useState(true);
 
   useEffect(() => {
@@ -14,16 +15,16 @@ export default function Home() {
       return;
     }
     if(connecting){
-      socket.on("webhooktest",async msg =>{
+      
+      socket.on("webhooktest", async msg =>{
         const data = [...list, msg];
-        console.log("aaaaa");
-        setList([data]);
+        setList(data);
+        console.log("data: ", data);
+        console.log("list: ", list);
         localStorage.setItem("get", JSON.stringify(data));
       });
       setConnecting(false);
     }
-
-
 
   }, [connecting, list])
 
@@ -33,13 +34,14 @@ export default function Home() {
       return;
     }
     if(localStorage.getItem("get")){
-      setList(JSON.parse(localStorage.getItem("get")));
+      setPost(JSON.parse(localStorage.getItem("get")));
+      console.log('실행');
     }
 
   },[])
   return (
     <div className={styles.container}>
-      {list.reverse().map((p)=> (
+      {post.reverse().map((p)=> (
         <div key={p.Time}><li>{JSON.stringify(p)}</li></div>
       ))}
     </div>
