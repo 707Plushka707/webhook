@@ -18,9 +18,6 @@ io.on('connection', (socket) => {
         io.emit("tradeData", msg);
         console.log("성공이다 ", msg);
     });
-    socket.on("hello", function(data){
-        io.emit("kirim", data);
-    });
 });
 
 server.listen(3001);

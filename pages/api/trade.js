@@ -2,7 +2,7 @@ import {io} from 'socket.io-client'
 
 const socket = io("http://localhost:3001", {transports: ['websocket']});
 
-const line = [4779, 4460, 3900, 3300, 2900, 2600, 2325, 2170, 1971, 1720];
+const line = [4779, 4460, 3900, 3300, 3178, 2900, 2600, 2325, 2170, 1971, 1720];
 socket.on("tradeData", data =>{
     if(data.wtWave2 > 0){
         //숏
