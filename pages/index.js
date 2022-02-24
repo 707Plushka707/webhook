@@ -1,5 +1,4 @@
 import styles from '../styles/Home.module.css'
-import axios from 'axios'
 import React,{useEffect, useState} from 'react'
 import {io} from 'socket.io-client'
 
@@ -15,19 +14,20 @@ export default function Home() {
       return;
     }
     if(connecting){
-      
-      socket.on("webhooktest", async msg =>{
-        const data = [...list, msg];
-        setList(data);
-        console.log("data: ", data);
-        console.log("list: ", list);
-        localStorage.setItem("get", JSON.stringify(data));
-      });
+      /*
+      (async()=> {
+        socket.on("webhooktest",async msg =>{
+          setList([...list, msg]);
+        });
+      })()*/
+      socket.on("webhooktest", msg => {
+        setList([...list, msg]);
+      })
       setConnecting(false);
     }
-
   }, [connecting, list])
 
+  console.log("list: ",list);
 
   useEffect(() =>{
     if(!localStorage){
