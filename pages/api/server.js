@@ -12,15 +12,21 @@ mongoose.connect(process.env.MONGODB_URI)
 .catch((e) => console.log("MongoDB error...", e))
 
 let db = mongoose.connection;
+let testData = {name: 'sdasd', age: '22', address: 'sdjidjsjidsji'};
+db.collection("datas").insertOne(testData,(err, res) => {
+    if(err) throw err;
+    console.log("1 document inserted..");
+})
 
+/*
 let student = mongoose.Schema({
     name: 'string',
     address : 'string',
     age : 'number'
 });
 
-let Student = mongoose.model('data', student);
-let newStudent = new Student({name: 'Jang Seong Hun', address:'test', age : '22'});
+let alertData = mongoose.model('data', student);
+let newalertData = new alertData();
 
 newStudent.save((err, data) => {
     if(err){
@@ -29,7 +35,7 @@ newStudent.save((err, data) => {
         console.log('save')
     }
 });
-
+*/
 const io = socketIO(server,{
     cors: {
         origin: "*",
