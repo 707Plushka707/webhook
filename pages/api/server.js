@@ -6,11 +6,6 @@ const app = express()
 const server = http.createServer(app)
 
 const mongoose = require('mongoose');
-mongoose.connect(process.env.MONGODB_URI)
-.then(()=> console.log("MongoDB connected..."))
-.catch((e) => console.log("MongoDB error...", e))
-
-const db = mongoose.connection;
 
 const io = socketIO(server,{
     cors: {
@@ -19,18 +14,53 @@ const io = socketIO(server,{
     }
 });
 
+async function findDB() {
+    const client = await mongoose.connect(process.env.MONGODB_URI)
+    .catch((e) => console.log("MongoDB error...", e))
+    const db = mongoose.connection;
+    if(!client){
+        console.log(client)
+        return;
+    }
+    try{
+
+        const find = await db.collection("datas").find().toArray();
+        console.log("////////DB : ",find);
+    } catch(err) {
+        console.log(err);
+    } finally {
+        db.close();
+    }
+}
+
+async function insertDB(data) {
+    const client = await mongoose.connect(process.env.MONGODB_URI)
+    .catch((e) => console.log("MongoDB error...", e))
+    const db = mongoose.connection;
+    if(!client){
+        return;
+    }
+    try{
+
+        await db.collection("datas").insertOne(data);
+        console.log("1 document inserted....");
+        }catch(err) {
+            console.log(err);
+        }finally {
+            db.close();
+        }
+    
+}
 
 
 io.on('connection', (socket) => {
     console.log("user connect");
-    socket.on("webhook",msg =>{
-        io.emit("webhooktest", msg);
+    socket.on("webhook",async msg =>{
+      //  io.emit("webhooktest", );
         io.emit("tradeData", msg);
-        db.collection("datas").insertOne(msg,(err, res) => {
-            if(err) throw err;
-            console.log("1 document inserted..");
-        })
-        console.log("성공이다 ", msg);
+        await insertDB(msg);
+       // console.log("성공이다 ", msg);
+        await findDB();
     });
 });
 
