@@ -10,40 +10,37 @@ export default function Home() {
   const [connecting, setConnecting] = useState(true);
 
   useEffect(() => {
-    if(!localStorage){
+    if(!socket){
       return;
     }
     if(connecting){
-      /*
+      
       (async()=> {
         socket.on("webhooktest",async msg =>{
-          setList([...list, msg]);
+          const dbData = msg;
+          setList(dbData);
+          console.log(list);
         });
-      })()*/
-      socket.on("webhooktest", msg => {
-        setList([...list, msg]);
-      })
+      })()
       setConnecting(false);
     }
-  }, [connecting, list])
-
-  console.log("list: ",list);
-
-  useEffect(() =>{
-    if(!localStorage){
+  },[list])
+  useEffect(() => {
+    if(!socket){
+      console.log("//////!socket ")
       return;
     }
-    if(localStorage.getItem("get")){
-      setPost(JSON.parse(localStorage.getItem("get")));
-      console.log('실행');
-    }
-
+      setPost(list);
+      console.log("///Post :", post);
   },[])
+
   return (
     <div className={styles.container}>
-      {post.reverse().map((p)=> (
+      <ol>
+      {list.reverse().map((p)=> (
         <div key={p.Time}><li>{JSON.stringify(p)}</li></div>
       ))}
+      </ol>
     </div>
   )
 }

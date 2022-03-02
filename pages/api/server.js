@@ -25,7 +25,9 @@ async function findDB() {
     try{
 
         const find = await db.collection("datas").find().toArray();
-        console.log("////////DB : ",find);
+      //  console.log("////////DB : ",find);
+      return(find);
+      
     } catch(err) {
         console.log(err);
     } finally {
@@ -56,11 +58,11 @@ async function insertDB(data) {
 io.on('connection', (socket) => {
     console.log("user connect");
     socket.on("webhook",async msg =>{
-      //  io.emit("webhooktest", );
-        io.emit("tradeData", msg);
         await insertDB(msg);
-       // console.log("성공이다 ", msg);
-        await findDB();
+        const dbData = await findDB();
+        io.emit("webhooktest", dbData);
+        io.emit("tradeData", msg);
+
     });
 });
 
