@@ -21,7 +21,7 @@ export default function Home() {
         });
       })()*/
       socket.on("webhooktest", msg => {
-        setList([...list, msg]);s
+        setList([...list, msg]);
       })
       setConnecting(false);
     }
