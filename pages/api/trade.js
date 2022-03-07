@@ -1,4 +1,5 @@
 //import {io} from 'socket.io-client'
+// 22 ETHUSDT
 require("dotenv").config();
 
 const Binance = require('node-binance-api');
@@ -9,13 +10,13 @@ const binance = new Binance().options({
   base: "https://testnet.binance.vision/api" 
 });
 
-async function test() {
+async function futuresAccount() {
     const data = await binance.futuresAccount();
-    const data1 = Object.keys(data);
-    console.log(data.assets);
+    const data1 = data.positions;
+    console.log(data1[22]);
 }
 
-test();
+futuresAccount();
     /*
 const socket = io("http://localhost:3001", {transports: ['websocket']});
 
