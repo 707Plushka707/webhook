@@ -1,8 +1,8 @@
-//import {io} from 'socket.io-client'
-// 22 ETHUSDT
 require("dotenv").config();
+const io = require('socket.io-client');
+const socket = io("http://localhost:3001", {transports: ['websocket']});
 
-//const socket = io("http://localhost:3001", {transports: ['websocket']});
+
 
 const Binance = require('node-binance-api');
 const binance = new Binance().options({
@@ -45,6 +45,8 @@ futuresAccount();
 
 socket.on("tradeData", async data =>{
     const account = await futuresAccount()
+    console.log(account);
+    /*
     if(account.positionAmt > 0){
         if(data.divergenceSellCircle && data.rsi >= -20){
             await futuresMarketSell();
@@ -63,6 +65,7 @@ socket.on("tradeData", async data =>{
             futuresMarketBuy();
         }
     }
+    */
 
 })
 
