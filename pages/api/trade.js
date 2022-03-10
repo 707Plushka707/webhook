@@ -15,7 +15,7 @@ const binance = new Binance().options({
 async function futuresAccount() {
     const data = await binance.futuresAccount();
     const data1 = data.positions;
-    //console.log(data1[23]);
+    console.log(data1[23]);
     return
 }
 async function coinAmount(){
@@ -25,26 +25,44 @@ async function coinAmount(){
     return(data1.toFixed(3)-0.001);
 }
 
-async function futuresMarketBuy(account){
-   binance.futuresMarketBuy('ETHUSDT',account);// 갯수
+async function futuresMarketBuy(){
+    const amount = await coinAmount()
+    binance.futuresMarketBuy('ETHUSDT',amount);// 갯수
    
    //console.log(data);
 
     console.log("구매완료");
 }
+async function futuresMarketSell(){
+    const amount = await coinAmount()
+    binance.futuresMarketSell('ETHUSDT',amount);// 갯수
+}
 
-//futuresAccount();
-const account = coinAmount();
+futuresAccount();
 //futuresMarketBuy(account);
 
 
-/*
+
 socket.on("tradeData", async data =>{
-    //SHORT 매수 
-    if(data.divergenceSellCircle && data.rsi >= -20){
-        
+    const account = await futuresAccount()
+    if(account.positionAmt > 0){
+        if(data.divergenceSellCircle && data.rsi >= -20){
+            await futuresMarketSell();
+            await futuresMarketSell();
+        }
+        if(data.divergenceBuyCircle && data.rsi <= -80){
+            await futuresMarketBuy();
+            await futuresMarketBuy();
+        }
     }
-    if(data.divergenceBuyCircle && data.rsi <= -80){
-        
+    if(account.positionAmt == 0){
+        if(data.divergenceSellCircle && data.rsi >= -20){
+            futuresMarketSell();
+        }
+        if(data.divergenceBuyCircle && data.rsi <= -80){
+            futuresMarketBuy();
+        }
     }
-})*/
+
+})
+
