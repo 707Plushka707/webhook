@@ -1,6 +1,6 @@
 require("dotenv").config();
 const io = require('socket.io-client');
-const socket = io("http://localhost:3001", {transports: ['websocket']});
+const socket = io("https://nameless-ravine-30994.herokuapp.com:3001", {transports: ['websocket']});
 
 
 

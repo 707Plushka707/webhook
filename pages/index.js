@@ -2,7 +2,7 @@ import styles from '../styles/Home.module.css'
 import React,{useEffect, useState} from 'react'
 import {io} from 'socket.io-client'
 
-const socket = io("http://localhost:3001", {transports: ['websocket']});
+const socket = io("https://nameless-ravine-30994.herokuapp.com:3001", {transports: ['websocket']});
 
 export default function Home() {
   const [list, setList] = useState([]);

@@ -1,6 +1,6 @@
 import {io} from 'socket.io-client'
 
-const socket = io("http://localhost:3001", {transports: ['websocket']});
+const socket = io("https://nameless-ravine-30994.herokuapp.com:3001", {transports: ['websocket']});
 
 export default async function (req, res) {
     if (req.method == 'POST') {
